@@ -9,14 +9,25 @@ class Main extends Component {
     };
   }
 
-  componentDidMount() {
-      this.setState({loading: true})
-    fetch("https://pokeapi.co/api/v2/pokemon?limit=10")
-      .then((response) => response.json())
-      .then((data) => this.setState({ data: data.results, loading: false }))
-      .catch((err) => {
-        console.log(err);
-      });
+  async componentDidMount() {
+    this.setState({loading: true})
+    try {
+        let data = await this.fetchData("https://pokeapi.co/api/v2/pokemon?limit=10")
+        this.setState({ data: data.results, loading: false })
+    } catch (error) {
+        console.log(error)
+    }
+  }
+
+  async fetchData(url) {
+      try {
+          let response = await fetch(url);
+          let data = await response.json();
+          console.log(data)
+          return data;
+      } catch (error) {
+          console.log(error)
+      }
   }
 
   render() {
