@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Pokemon from "./Pokemon"
 
 class Main extends Component {
   constructor(props) {
@@ -7,6 +8,7 @@ class Main extends Component {
       data: [],
       loading: false,
     };
+    this.fetchData = this.fetchData.bind(this)
   }
 
   async componentDidMount() {
@@ -23,7 +25,6 @@ class Main extends Component {
       try {
           let response = await fetch(url);
           let data = await response.json();
-          console.log(data)
           return data;
       } catch (error) {
           console.log(error)
@@ -32,14 +33,13 @@ class Main extends Component {
 
   render() {
     const {data, loading} = this.state;
-    console.log(data)
     return (
         loading ? 
         <p>Loading...</p> :
         <main>
             <ul>
                 {data.map(item => 
-                    <li key={item.name}>{item.name}</li>)}
+                    <li key={item.name}><Pokemon fetchData={this.fetchData} url={item.url}/></li>)}
             </ul>
         </main>
     )
