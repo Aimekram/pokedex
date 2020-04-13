@@ -22,7 +22,7 @@ class Pokemon extends Component {
 
   render() {
     const { data, loading } = this.state;
-    const { name, weight, sprites } = data;
+    const { name, weight, sprites, id } = data;
     const imgURL = sprites ? sprites.front_default : null;
 
     return loading ? (
@@ -30,7 +30,7 @@ class Pokemon extends Component {
     ) : (
       <>
         <p>
-          Name: {name}, weight: {weight}
+          Name: {name}, weight: {weight} hectograms, id: {id}
         </p>
         <img src={imgURL} alt={name} />
       </>
