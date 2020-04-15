@@ -22,11 +22,15 @@
 /* variables */
 :root {
     --font-stack: Calibri, sans-serif;
-    --background-color: #fafafa;
-    --first-color: #000;
-    --second-color: #3b69be;
-    --third-color:  #04156d;
-    --forth-color: #ebae00
+    --background-color: #1a1a1c;
+    --first-color: #fafafa;
+    --second-color: #22488e;
+    --third-color:  #1a214b;
+    --forth-color: #2a3d61;
+    --stats-bg-color: #c4c4c452;
+    --white: #fafafa;
+    --black: #000;
+    --dark-color: #1a1a1c;
 }
 
 /* global styles */
@@ -42,6 +46,8 @@ body {
     font-size: 16px;
     background-color: var(--background-color);
     color: var(--first-color);
+    overflow-x: hidden;
+    padding: 2rem;
 }
 
 ul, ol {
@@ -63,8 +69,9 @@ a, a:visited {
 .header {
     font-family: PokemonHollow, Calibri, sans-serif;
     font-size: 3rem;
-    line-height: 2;
+    line-height: 1;
     text-align: center;
+    margin-bottom: 2rem;
 }
 
 /* filter */
@@ -99,15 +106,15 @@ a, a:visited {
     flex-flow: row wrap;
     justify-content: center;
     width: 100%;
-    max-width: 1800px;
+    max-width: 1600px;
 }
 
 .pokemoncard {
     font-size: 1.5rem;
     text-align: center;
-    width: 60vw;
+    width: 80vw;
     max-width: 300px;
-    height: 11rem;
+    height: 16rem;
     margin: .5rem;
     border: 8px solid var(--third-color);
     border-radius: 5px;
@@ -116,12 +123,63 @@ a, a:visited {
     background-color: var(--second-color);
     background-blend-mode: multiply;
     background-repeat: no-repeat;
-    color: var(--background-color);
+    color: var(--first-color);
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+}
+
+.pokemoncard_back {
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    font-size: 1rem;
+    padding: 0 .5rem;
+    border-color: var(--black);
+    background-color: var(--forth-color);
+}
+
+.pokemoncard_stats {
+    width: 100%;
+}
+
+.pokemoncard_subtitle {
+    margin: .5rem;
+    font-size: 1.2rem;
+}
+
+.pokemoncard_subtitle::first-letter {
+    text-transform: uppercase;
+}
+
+.pokemoncard_stats_item {
+    display: flex;
+    justify-content: space-between;
+    margin: 3px 0;
+    text-transform: capitalize;
+}
+
+.pokemoncard_stats_fullbar {
+    display: inline-block;
+    background-color: var(--stats-bg-color);
+    width: 100px;
+    text-align: left;
+    border-radius: 5px;
+    position: relative;
+}
+
+.pokemoncard_stats_progressbar {
+    display: flex;
+    align-items: center;
+    width: 100px;
+    height: 100%;
+    border-radius: 5px;
+    color: var(--dark-color);
+    background-color: var(--white);
+    padding-left: 5px;
+    font-size: .8rem;
+    position: absolute;
 }
 
 .pokemoncard:hover,
@@ -130,7 +188,7 @@ a, a:visited {
 }
 
 .pokemoncard_img {
-    width: 120px;
+    width: 140px;
     margin-top: -1rem;
 }
 

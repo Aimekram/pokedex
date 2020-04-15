@@ -12,16 +12,20 @@ class Main extends Component {
       currentPage: 1,
       itemsPerPage: 12,
       filterValue: "",
+      windowWidth: 320,
     };
-    this.fetchData = this.fetchData.bind(this)
-    this.fetchMoreData = this.fetchMoreData.bind(this)
-    this.getSinglePage = this.getSinglePage.bind(this)
-    this.changePage = this.changePage.bind(this)
-    this.handleFilterSubmit = this.handleFilterSubmit.bind(this)
-    this.handleFilterChange = this.handleFilterChange.bind(this)
+    this.fetchData = this.fetchData.bind(this);
+    this.fetchMoreData = this.fetchMoreData.bind(this);
+    this.getSinglePage = this.getSinglePage.bind(this);
+    this.changePage = this.changePage.bind(this);
+    this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.handleResize = this.handleResize.bind(this);
   }
 
   async componentDidMount() {
+    this.handleResize();
+    window.addEventListener("resize", this.handleResize)
     try {
         const rawData = await this.fetchData("https://pokeapi.co/api/v2/pokemon?limit=220");
         const data = await this.fetchMoreData(rawData.results)
@@ -44,7 +48,7 @@ class Main extends Component {
   }
 
   //get specific data about each Pokemon for all Pokemons
-    async fetchMoreData(data) {
+  async fetchMoreData(data) {
     for (const [index, item] of data.entries()) {
       try {
         let moreData = await this.fetchData(item.url);
@@ -56,7 +60,8 @@ class Main extends Component {
     return data;
   }
 
-   getSinglePage() {
+  //slice data for single page to display
+  getSinglePage() {
     const {data, currentPage, itemsPerPage} = this.state;
     const pageFirstItem = (currentPage-1)*itemsPerPage;
     const singlePageData = data.slice(pageFirstItem, pageFirstItem + itemsPerPage);
@@ -80,8 +85,12 @@ class Main extends Component {
     this.setState({filterValue: e.target.value});
   }
 
+  handleResize() {
+    this.setState({ windowWidth: window.innerWidth })
+  }
+
   render() {
-    const {data, isFetched, itemsPerPage, currentPage } = this.state;
+    const {data, isFetched, itemsPerPage, currentPage, windowWidth } = this.state;
     const singlePageData = this.getSinglePage();
     const moreThanOnePage = data.length > itemsPerPage;
 
@@ -94,7 +103,7 @@ class Main extends Component {
           <ul className="pokemonlist">
               {singlePageData.map(item => {
                 return <li key={item.name}>
-                  <Pokemon name={item.name} moreData={item.moreData}/>
+                  <Pokemon name={item.name} moreData={item.moreData} windowWidth={windowWidth}/>
                 </li>})
               }
           </ul>
