@@ -31,7 +31,6 @@ class Main extends Component {
     } catch (error) {
         console.log(error);
     }
-    this.changePage(2)
   }
 
   //universal function to make API fetch
