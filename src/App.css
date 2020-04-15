@@ -1,0 +1,124 @@
+/* fonts import */
+@font-face {
+    font-family: "Ketchum";
+    src: url("./fonts/Ketchum.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "PokemonHollow";
+    src: url("./fonts/PokemonHollow.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "PokemonSolid";
+    src: url("./fonts/PokemonSolid.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "PokemonClassic";
+    src: url("./fonts/PokemonClassic.ttf") format("truetype");
+}
+
+/* variables */
+:root {
+    --font-stack: Calibri, sans-serif;
+    --background-color: #fafafa;
+    --first-color: #000;
+    --second-color: #3b69be;
+    --third-color:  #04156d;
+    --forth-color: #ebae00
+}
+
+/* global styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-size: inherit;
+}
+
+body {
+    font-family: var(--font-stack);
+    font-size: 16px;
+    background-color: var(--background-color);
+    color: var(--first-color);
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a, a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+.main {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+/* header */
+.header {
+    font-family: PokemonHollow, Calibri, sans-serif;
+    font-size: 3rem;
+    line-height: 2;
+    text-align: center;
+}
+
+/* filter */
+
+/* pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.pagination_item {
+    font-family: PokemonClassic, Calibri, sans-serif;
+    font-size: 1.3rem;
+    margin: .5rem;
+    text-align: center;
+    /* border: 2px solid var(--first-color); */
+}
+
+.pagination_link {
+    padding: 0 .2rem;
+}
+
+.pagination_link:hover,
+.pagination_link:focus,
+.pagination_link:active {
+    border-bottom: 2px solid var(--first-color);
+    outline: none   ;
+}
+
+/* pokemon card */
+.pokemonlist {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.pokemoncard {
+    font-size: 1.5rem;
+    text-align: center;
+    width: 60vw;
+    max-width: 300px;
+    height: 10rem;
+    margin: .5rem;
+    border: 8px solid var(--third-color);
+    border-radius: 5px;
+    background-image: url("./images/card_background.png");
+    background-size: cover;
+    background-color: var(--second-color);
+    background-blend-mode: multiply;
+    background-repeat: no-repeat;
+    color: var(--background-color);
+}
+
+.pokemoncard_name {
+    text-transform: capitalize;
+}
