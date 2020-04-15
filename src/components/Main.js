@@ -1,29 +1,40 @@
 import React, { Component } from "react";
 import Pokemon from "./Pokemon"
 import Pagination from "./Pagination";
+import Filter from "./Filter";
 
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
-      loading: false,
+      isFetched: false,
       displayedPage: 1,
+      itemsPerPage: 10,
+      filterValue: "",
     };
     this.fetchData = this.fetchData.bind(this)
+    this.fetchMoreData = this.fetchMoreData.bind(this)
+    this.getSinglePage = this.getSinglePage.bind(this)
     this.changePage = this.changePage.bind(this)
+    this.handleFilterSubmit = this.handleFilterSubmit.bind(this)
+    this.handleFilterChange = this.handleFilterChange.bind(this)
   }
 
   async componentDidMount() {
-    this.setState({loading: true})
     try {
-        let data = await this.fetchData("https://pokeapi.co/api/v2/pokemon?limit=100")
-        this.setState({ data: data.results, loading: false })
+        const rawData = await this.fetchData("https://pokeapi.co/api/v2/pokemon?limit=50");
+        this.setState({ data: rawData.results });
+        const data = await this.fetchMoreData(rawData.results)
+        this.setState({ data, isFetched: true });
+        console.log(this.state);
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
+    this.changePage(2)
   }
 
+  //universal function to make API fetch
   async fetchData(url) {
       try {
           let response = await fetch(url);
@@ -34,26 +45,65 @@ class Main extends Component {
       }
   }
 
+  //get specific data about each Pokemon for all Pokemons
+  fetchMoreData(data) {
+    data.forEach(async (item, index) => {
+      try {
+        let moreData = await this.fetchData(item.url);
+        data[index].moreData = moreData;
+      } catch (error) {
+        console.log(error);
+      }
+    })
+    return data;
+  }
+
+   getSinglePage() {
+    const {data, displayedPage, itemsPerPage} = this.state;
+    console.log(this.state.isFetched)
+    console.log(data)
+    const pageFirstItem = (displayedPage-1)*itemsPerPage;
+    const singlePageData = data.slice(pageFirstItem, pageFirstItem + itemsPerPage);
+    console.log(singlePageData)
+    return singlePageData; 
+  }
+
+  //change page on pagination list
   changePage(number) {
     this.setState({displayedPage: number})
   }
 
+  //filter data
+  handleFilterSubmit(e) {
+    e.preventDefault();
+    console.log(this.state.filterValue);
+    // const filteredData = this.state.data.filter(item => item.name === this.state.filterValue)
+    // this.setState({data: filteredData});
+  }
+
+  handleFilterChange(e) {
+    this.setState({filterValue: e.target.value});
+  }
+
   render() {
-    const {data, loading} = this.state;
-    const itemsPerPage = 5;
-    const pageFirstItem = (this.state.displayedPage-1)*itemsPerPage;
-    const dataOnPage = data.slice(pageFirstItem, pageFirstItem + itemsPerPage); 
+    const {data, isFetched, itemsPerPage } = this.state;
+    console.log(data)
+    const singlePageData = this.getSinglePage();
 
     return (
-        loading ? 
-        <p>Loading...</p> :
+      !isFetched ? 
+        <p>Loading...</p> : 
         <main>
-            <Pagination totalItems={data.length} itemsPerPage={itemsPerPage} changePage={this.changePage}/>
-            <ul>
-                {dataOnPage.map(item => 
-                    <li key={item.name}><Pokemon fetchData={this.fetchData} url={item.url} /></li>)}
-            </ul>
-            <Pagination totalItems={data.length} itemsPerPage={itemsPerPage} changePage={this.changePage}/>
+          <Filter handleFilterSubmit={this.handleFilterSubmit} handleFilterChange={this.handleFilterChange}/>
+          <Pagination totalItems={data.length} itemsPerPage={itemsPerPage} changePage={this.changePage}/>
+          <ul>
+              {singlePageData.map(item => {
+                // const weight = item.moreData ? item.moreData.weight : null;
+                console.log(item.moreData)
+                return <li key={item.name}><Pokemon name={item.name} /></li>})
+              }
+          </ul>
+          <Pagination totalItems={data.length} itemsPerPage={itemsPerPage} changePage={this.changePage}/>
         </main>
     )
   }
