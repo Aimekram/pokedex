@@ -24,7 +24,6 @@ class Main extends Component {
   async componentDidMount() {
     try {
         const rawData = await this.fetchData("https://pokeapi.co/api/v2/pokemon?limit=50");
-        this.setState({ data: rawData.results });
         const data = await this.fetchMoreData(rawData.results)
         this.setState({ data, isFetched: true });
         console.log(this.state);
@@ -45,25 +44,22 @@ class Main extends Component {
   }
 
   //get specific data about each Pokemon for all Pokemons
-  fetchMoreData(data) {
-    data.forEach(async (item, index) => {
+    async fetchMoreData(data) {
+    for (const [index, item] of data.entries()) {
       try {
         let moreData = await this.fetchData(item.url);
         data[index].moreData = moreData;
       } catch (error) {
         console.log(error);
       }
-    })
+    }
     return data;
   }
 
    getSinglePage() {
     const {data, displayedPage, itemsPerPage} = this.state;
-    console.log(this.state.isFetched)
-    console.log(data)
     const pageFirstItem = (displayedPage-1)*itemsPerPage;
     const singlePageData = data.slice(pageFirstItem, pageFirstItem + itemsPerPage);
-    console.log(singlePageData)
     return singlePageData; 
   }
 
@@ -86,7 +82,6 @@ class Main extends Component {
 
   render() {
     const {data, isFetched, itemsPerPage } = this.state;
-    console.log(data)
     const singlePageData = this.getSinglePage();
 
     return (
@@ -97,9 +92,7 @@ class Main extends Component {
           <Pagination totalItems={data.length} itemsPerPage={itemsPerPage} changePage={this.changePage}/>
           <ul className="pokemonlist">
               {singlePageData.map(item => {
-                // const weight = item.moreData ? item.moreData.weight : null;
-                console.log(item.moreData)
-                return <li key={item.name}><Pokemon name={item.name} /></li>})
+                return <li key={item.name}><Pokemon name={item.name} moreData={item.moreData}/></li>})
               }
           </ul>
           <Pagination totalItems={data.length} itemsPerPage={itemsPerPage} changePage={this.changePage}/>
