@@ -1,16 +1,53 @@
 import React from "react";
 
-const Pagination = ({ totalItems, itemsPerPage, changePage }) => {
+const Pagination = ({ totalItems, itemsPerPage, changePage, currentPage }) => {
+  // generate number for each page
   const pageCount = Math.ceil(totalItems / itemsPerPage);
   const pageNums = [...Array(pageCount)].map((item, index) => index + 1);
+
+  //slice pagination if too many pages
+  const paramFront = currentPage <= 4 ? 3 : 1;
+  const paramBack = currentPage >= pageNums.length - 3 ? 3 : 1;
+
+  const pageNumsSliced = () => {
+    if (pageNums.length > 5) {
+      if (currentPage <= 4) {
+        return pageNums.slice(0, 5);
+      } else if (currentPage > pageNums.length - 4) {
+        return pageNums.slice(-5, pageNums.length);
+      } else {
+        return pageNums.filter(
+          (item) =>
+            item >= currentPage - paramFront && item <= currentPage + paramBack
+        );
+      }
+    } else {
+      return pageNums;
+    }
+  };
+
+  // make dots
+  const pageNumsDotted = () => {
+    if (currentPage < 5) {
+      return [...pageNumsSliced(), "...", pageCount];
+    } else if (currentPage >= pageNums.length - 3) {
+      return [1, "...", ...pageNumsSliced()];
+    } else {
+      return [1, "...", ...pageNumsSliced(), "...", pageCount];
+    }
+  };
 
   return (
     <nav>
       <ul className="pagination">
-        {pageNums.map((item) => (
-          <li key={item} className="pagination_item">
+        {pageNumsDotted().map((item, index) => (
+          <li key={index} className="pagination_item">
             <a
-              className="pagination_link        "
+              className={
+                item === currentPage
+                  ? "pagination_link currentPage"
+                  : "pagination_link"
+              }
               onClick={() => changePage(item)}
               href="!#"
             >

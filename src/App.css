@@ -77,21 +77,20 @@ a, a:visited {
 
 .pagination_item {
     font-family: PokemonClassic, Calibri, sans-serif;
-    font-size: 1.3rem;
-    margin: .5rem;
+    font-size: 1.2rem;
+    margin: .1rem;
     text-align: center;
-    /* border: 2px solid var(--first-color); */
 }
 
 .pagination_link {
     padding: 0 .2rem;
 }
 
+.currentPage,
 .pagination_link:hover,
-.pagination_link:focus,
-.pagination_link:active {
+.pagination_link:focus {
     border-bottom: 2px solid var(--first-color);
-    outline: none   ;
+    outline: none;
 }
 
 /* pokemon card */
@@ -100,6 +99,7 @@ a, a:visited {
     flex-flow: row wrap;
     justify-content: center;
     width: 100%;
+    max-width: 1800px;
 }
 
 .pokemoncard {
@@ -107,7 +107,7 @@ a, a:visited {
     text-align: center;
     width: 60vw;
     max-width: 300px;
-    height: 10rem;
+    height: 11rem;
     margin: .5rem;
     border: 8px solid var(--third-color);
     border-radius: 5px;
@@ -117,8 +117,25 @@ a, a:visited {
     background-blend-mode: multiply;
     background-repeat: no-repeat;
     color: var(--background-color);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.pokemoncard:hover,
+.pokemoncard:focus {
+    opacity: .8;
+}
+
+.pokemoncard_img {
+    width: 120px;
+    margin-top: -1rem;
 }
 
 .pokemoncard_name {
     text-transform: capitalize;
+    position: absolute;
+    bottom: 5px;
 }

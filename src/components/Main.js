@@ -9,8 +9,8 @@ class Main extends Component {
     this.state = {
       data: [],
       isFetched: false,
-      displayedPage: 1,
-      itemsPerPage: 10,
+      currentPage: 1,
+      itemsPerPage: 12,
       filterValue: "",
     };
     this.fetchData = this.fetchData.bind(this)
@@ -23,7 +23,7 @@ class Main extends Component {
 
   async componentDidMount() {
     try {
-        const rawData = await this.fetchData("https://pokeapi.co/api/v2/pokemon?limit=50");
+        const rawData = await this.fetchData("https://pokeapi.co/api/v2/pokemon?limit=220");
         const data = await this.fetchMoreData(rawData.results)
         this.setState({ data, isFetched: true });
         console.log(this.state);
@@ -57,15 +57,15 @@ class Main extends Component {
   }
 
    getSinglePage() {
-    const {data, displayedPage, itemsPerPage} = this.state;
-    const pageFirstItem = (displayedPage-1)*itemsPerPage;
+    const {data, currentPage, itemsPerPage} = this.state;
+    const pageFirstItem = (currentPage-1)*itemsPerPage;
     const singlePageData = data.slice(pageFirstItem, pageFirstItem + itemsPerPage);
     return singlePageData; 
   }
 
   //change page on pagination list
   changePage(number) {
-    this.setState({displayedPage: number})
+    number !== "..." && this.setState({currentPage: number})
   }
 
   //filter data
@@ -81,21 +81,24 @@ class Main extends Component {
   }
 
   render() {
-    const {data, isFetched, itemsPerPage } = this.state;
+    const {data, isFetched, itemsPerPage, currentPage } = this.state;
     const singlePageData = this.getSinglePage();
+    const moreThanOnePage = data.length > itemsPerPage;
 
     return (
       !isFetched ? 
         <p>Loading...</p> : 
         <main className="main">
           <Filter handleFilterSubmit={this.handleFilterSubmit} handleFilterChange={this.handleFilterChange}/>
-          <Pagination totalItems={data.length} itemsPerPage={itemsPerPage} changePage={this.changePage}/>
+          { moreThanOnePage && <Pagination totalItems={data.length} currentPage={currentPage} itemsPerPage={itemsPerPage} changePage={this.changePage}/>}
           <ul className="pokemonlist">
               {singlePageData.map(item => {
-                return <li key={item.name}><Pokemon name={item.name} moreData={item.moreData}/></li>})
+                return <li key={item.name}>
+                  <Pokemon name={item.name} moreData={item.moreData}/>
+                </li>})
               }
           </ul>
-          <Pagination totalItems={data.length} itemsPerPage={itemsPerPage} changePage={this.changePage}/>
+          { moreThanOnePage && <Pagination totalItems={data.length} currentPage={currentPage} itemsPerPage={itemsPerPage} changePage={this.changePage}/>}
         </main>
     )
   }
