@@ -27,12 +27,10 @@ const Pokemon = ({ name, weight, sprites, id }) => {
   // const imgURL = sprites ? sprites.front_default : null;
 
   return (
-    <>
-      <p>
-        Name: {name}, weight: {weight} hectograms
-      </p>
+    <div className="pokemoncard">
+      <p className="pokemoncard_name">{name}</p>
       {/* <img src={sprites.front_default} alt={name} /> */}
-    </>
+    </div>
   );
 };
 

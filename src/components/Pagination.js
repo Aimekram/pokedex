@@ -6,10 +6,14 @@ const Pagination = ({ totalItems, itemsPerPage, changePage }) => {
 
   return (
     <nav>
-      <ul>
+      <ul className="pagination">
         {pageNums.map((item) => (
-          <li key={item}>
-            <a onClick={() => changePage(item)} href="!#">
+          <li key={item} className="pagination_item">
+            <a
+              className="pagination_link        "
+              onClick={() => changePage(item)}
+              href="!#"
+            >
               {item}
             </a>
           </li>

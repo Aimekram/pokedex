@@ -92,10 +92,10 @@ class Main extends Component {
     return (
       !isFetched ? 
         <p>Loading...</p> : 
-        <main>
+        <main className="main">
           <Filter handleFilterSubmit={this.handleFilterSubmit} handleFilterChange={this.handleFilterChange}/>
           <Pagination totalItems={data.length} itemsPerPage={itemsPerPage} changePage={this.changePage}/>
-          <ul>
+          <ul className="pokemonlist">
               {singlePageData.map(item => {
                 // const weight = item.moreData ? item.moreData.weight : null;
                 console.log(item.moreData)
