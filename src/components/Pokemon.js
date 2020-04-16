@@ -27,8 +27,8 @@ class Pokemon extends Component {
 
   render() {
     const { front } = this.state;
-    const { name, moreData, windowWidth } = this.props;
-    const { sprites, types, stats } = moreData;
+    const { data, windowWidth } = this.props;
+    const { name, sprites, types, stats } = data;
     const typesList = types.map((item) => item.type.name).join(" / ");
     const statsList = this.mapStats(stats);
     const barWidth = windowWidth >= 370 ? 150 : 100;
@@ -63,7 +63,7 @@ class Pokemon extends Component {
                         width: `${
                           barWidth === 100
                             ? Math.floor((Object.values(item) * 100) / 150)
-                            : Object.values(item)
+                            : Math.floor((Object.values(item) * 150) / 250)
                         }px`,
                       }}
                     >

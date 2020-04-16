@@ -44,6 +44,10 @@
 body {
     font-family: var(--font-stack);
     font-size: 16px;
+    /* background-image: url(./images/background.png); */
+    /* background-repeat: no-repeat;
+    background-size: contain; */
+    /* background-position: bottom; */
     background-color: var(--background-color);
     color: var(--first-color);
     overflow-x: hidden;
@@ -196,4 +200,12 @@ a, a:visited {
     text-transform: capitalize;
     position: absolute;
     bottom: 5px;
+}
+
+/* loading */
+
+/* no items message */
+.message {
+    font-size: 1.5rem;
+    margin: 3rem;
 }

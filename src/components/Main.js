@@ -30,7 +30,7 @@ class Main extends Component {
     try {
         const rawData = await this.fetchData("https://pokeapi.co/api/v2/pokemon?limit=220");
         const data = await this.fetchMoreData(rawData.results);
-        this.setState({ data }, this.filterData);
+        this.setState({ data, filteredData: data });
         this.setState({ isFetched: true });
         console.log(this.state);
     } catch (error) {
@@ -51,15 +51,16 @@ class Main extends Component {
 
   //get specific data about each Pokemon for all Pokemons
   async fetchMoreData(data) {
-    for (const [index, item] of data.entries()) {
+    const moreData = [];
+    for (const item of data) {
       try {
-        let moreData = await this.fetchData(item.url);
-        data[index].moreData = moreData;
+        let freshData = await this.fetchData(item.url);
+        moreData.push(freshData);
       } catch (error) {
         console.log(error);
       }
     }
-    return data;
+    return moreData;
   }
 
   //slice data for single page to display
@@ -99,14 +100,18 @@ class Main extends Component {
 
     return (
       !isFetched ? 
-        <p>Loading...</p> : 
+      <div>
+        <img src="../images/pokeball.jpg" alt="Loading..."/>
+        <p>Loading...</p>  
+      </div> :
         <main className="main">
           <Filter handleFilterChange={this.handleFilterChange}/>
           { moreThanOnePage && <Pagination totalItems={filteredData.length} currentPage={currentPage} itemsPerPage={itemsPerPage} changePage={this.changePage}/>}
           <ul className="pokemonlist">
-              {singlePageData.map(item => {
-                return <li key={item.name}>
-                  <Pokemon name={item.name} moreData={item.moreData} windowWidth={windowWidth}/>
+              {filteredData.length === 0 ? <p className="message">no items found</p> :
+              singlePageData.map(item => {
+                return <li key={item.id}>
+                  <Pokemon data={item} windowWidth={windowWidth} />
                 </li>})
               }
           </ul>
