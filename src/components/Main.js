@@ -32,7 +32,6 @@ class Main extends Component {
         const data = await this.fetchMoreData(rawData.results);
         this.setState({ data, filteredData: data });
         this.setState({ isFetched: true });
-        console.log(this.state);
     } catch (error) {
         console.log(error);
     }
@@ -74,7 +73,6 @@ class Main extends Component {
 
   //change page on pagination list
   changePage(number) {
-    // console.log("changed")
     number !== "..." && this.setState({ currentPage: number })
   }
 
@@ -84,7 +82,6 @@ class Main extends Component {
 
   filterData() {
     const { data, filterValue } = this.state;
-    console.log(data)
     const isNone = filterValue === "none"
     const filteredData = isNone ? data : data.filter(item => item.types.map((item) => item.type.name).includes(filterValue))
     this.setState( { filteredData, currentPage: 1 });
@@ -98,7 +95,6 @@ class Main extends Component {
     const { isFetched, itemsPerPage, currentPage, windowWidth, filteredData } = this.state;
     const singlePageData = this.getSinglePage(filteredData, currentPage, itemsPerPage);
     const moreThanOnePage = filteredData.length > itemsPerPage;
-    console.log(filteredData.length)
 
     return (
       !isFetched ? 

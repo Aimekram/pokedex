@@ -1,10 +1,5 @@
 /* fonts import */
 @font-face {
-    font-family: "Ketchum";
-    src: url("./fonts/Ketchum.otf") format("opentype");
-}
-
-@font-face {
     font-family: "PokemonHollow";
     src: url("./fonts/PokemonHollow.ttf") format("truetype");
 }
@@ -46,14 +41,9 @@
 body {
     font-family: var(--font-stack);
     font-size: 16px;
-    /* background-image: url(./images/background.png); */
-    /* background-repeat: no-repeat;
-    background-size: contain; */
-    /* background-position: bottom; */
     background-color: var(--background-color);
     color: var(--first-color);
     overflow-x: hidden;
-    padding: 2rem;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
@@ -73,15 +63,15 @@ a, a:visited {
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
+    padding: 1rem;
 }
 
 /* header */
 .header {
     font-family: PokemonHollow, Calibri, sans-serif;
     font-size: 3.2rem;
-    line-height: 1;
+    line-height: 1.2;
     text-align: center;
-    margin-bottom: 2rem;
 }
 
 /* filter */
@@ -241,14 +231,7 @@ a, a:visited {
 .pokemoncard_img {
     width: 140px;
     margin-top: -1rem;
-    /* animation: pop 1s 0 1 forwards; */
 }
-
-/* @keyframes pop {
-    0% {transform: scale(.3)}
-    80% {transform: scale(1.2)}
-    100% {transform: scale(1)}
-} */
 
 .pokemoncard_name {
     text-transform: capitalize;
@@ -273,8 +256,6 @@ a, a:visited {
     animation: rotate 1.5s linear infinite;
     left: calc(50% - 75px);
     display: inline-block;
-    /* position: absolute;
-    top: calc(50% - 75px); */
 }
 
 .inner {
@@ -327,7 +308,6 @@ a, a:visited {
         transform: rotate(360deg);
     }
 }
-
 
 /* no items message */
 .message {

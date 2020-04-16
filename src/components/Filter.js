@@ -23,7 +23,7 @@ const Filter = ({ handleFilterChange }) => {
   return (
     <form>
       <select className="filter" onChange={handleFilterChange}>
-        <option value="none">filter by type</option>
+        <option value="none">show all Pokemons</option>
         {types.map((item) => (
           <option value={item} key={item}>
             {item}
