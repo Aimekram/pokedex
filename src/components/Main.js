@@ -28,7 +28,7 @@ class Main extends Component {
     this.handleResize();
     window.addEventListener("resize", this.handleResize)
     try {
-        const rawData = await this.fetchData("https://pokeapi.co/api/v2/pokemon?limit=220");
+        const rawData = await this.fetchData("https://pokeapi.co/api/v2/pokemon?limit=150");
         const data = await this.fetchMoreData(rawData.results);
         this.setState({ data, filteredData: data });
         this.setState({ isFetched: true });
@@ -37,6 +37,8 @@ class Main extends Component {
         console.log(error);
     }
   }
+
+  componentDidUpdate() {}
 
   //universal function to make API fetch
   async fetchData(url) {
@@ -64,8 +66,7 @@ class Main extends Component {
   }
 
   //slice data for single page to display
-  getSinglePage(data) {
-    const { currentPage, itemsPerPage} = this.state;
+  getSinglePage(data, currentPage, itemsPerPage) {
     const pageFirstItem = (currentPage-1)*itemsPerPage;
     const singlePageData = data.slice(pageFirstItem, pageFirstItem + itemsPerPage);
     return singlePageData; 
@@ -73,7 +74,8 @@ class Main extends Component {
 
   //change page on pagination list
   changePage(number) {
-    number !== "..." && this.setState({currentPage: number})
+    // console.log("changed")
+    number !== "..." && this.setState({ currentPage: number })
   }
 
   handleFilterChange(e) {
@@ -84,7 +86,7 @@ class Main extends Component {
     const { data, filterValue } = this.state;
     console.log(data)
     const isNone = filterValue === "none"
-    const filteredData = isNone ? data : data.filter(item => item.moreData.types.map((item) => item.type.name).includes(filterValue))
+    const filteredData = isNone ? data : data.filter(item => item.types.map((item) => item.type.name).includes(filterValue))
     this.setState( { filteredData, currentPage: 1 });
   }
 
@@ -94,15 +96,23 @@ class Main extends Component {
 
   render() {
     const { isFetched, itemsPerPage, currentPage, windowWidth, filteredData } = this.state;
-    const singlePageData = this.getSinglePage(filteredData);
+    const singlePageData = this.getSinglePage(filteredData, currentPage, itemsPerPage);
     const moreThanOnePage = filteredData.length > itemsPerPage;
     console.log(filteredData.length)
 
     return (
       !isFetched ? 
-      <div>
-        <img src="../images/pokeball.jpg" alt="Loading..."/>
-        <p>Loading...</p>  
+      <div className="loading">
+        <div className="pokeball">
+          <div className="upper">
+            <div className="inner"></div>
+          </div>
+          <div className="middle"></div>
+          <div className="lower">
+            <div className="inner"></div>
+          </div>
+        </div>
+        <p className="message">Loading...</p>
       </div> :
         <main className="main">
           <Filter handleFilterChange={this.handleFilterChange}/>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Filter = ({ handleFilterChange, filterValue }) => {
+const Filter = ({ handleFilterChange }) => {
   const types = [
     "normal",
     "fighting",
@@ -22,8 +22,8 @@ const Filter = ({ handleFilterChange, filterValue }) => {
 
   return (
     <form>
-      <select onChange={handleFilterChange}>
-        <option value="none">Filter by type</option>
+      <select className="filter" onChange={handleFilterChange}>
+        <option value="none">filter by type</option>
         {types.map((item) => (
           <option value={item} key={item}>
             {item}

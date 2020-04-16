@@ -55,7 +55,7 @@ const Pagination = ({ totalItems, itemsPerPage, changePage, currentPage }) => {
                   : "pagination_link"
               }
               onClick={() => changePage(item)}
-              href="!#"
+              href="#!"
             >
               {item}
             </a>
