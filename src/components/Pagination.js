@@ -3,7 +3,9 @@ import React from "react";
 const Pagination = ({ totalItems, itemsPerPage, changePage, currentPage }) => {
   // generate number for each page
   const pageCount = Math.ceil(totalItems / itemsPerPage);
-  const pageNums = [...Array(pageCount)].map((item, index) => index + 1);
+  const pageNums = [...Array(Math.ceil(totalItems / itemsPerPage))].map(
+    (item, index) => index + 1
+  );
 
   //slice pagination if too many pages
   const paramFront = currentPage <= 4 ? 3 : 1;
@@ -28,12 +30,16 @@ const Pagination = ({ totalItems, itemsPerPage, changePage, currentPage }) => {
 
   // make dots
   const pageNumsDotted = () => {
-    if (currentPage < 5) {
-      return [...pageNumsSliced(), "...", pageCount];
-    } else if (currentPage >= pageNums.length - 3) {
-      return [1, "...", ...pageNumsSliced()];
+    if (pageNums.length > 5) {
+      if (currentPage < 5) {
+        return [...pageNumsSliced(), "...", pageCount];
+      } else if (currentPage >= pageNums.length - 3) {
+        return [1, "...", ...pageNumsSliced()];
+      } else {
+        return [1, "...", ...pageNumsSliced(), "...", pageCount];
+      }
     } else {
-      return [1, "...", ...pageNumsSliced(), "...", pageCount];
+      return pageNums;
     }
   };
 
