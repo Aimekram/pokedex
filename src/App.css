@@ -17,7 +17,7 @@
 /* variables */
 :root {
     --font-stack: Calibri, sans-serif;
-    --background-color: #1a1a1c;
+    --background-color: #070719;
     --first-color: #fafafa;
     --second-color: #22488e;
     --third-color:  #1a214b;
@@ -42,6 +42,10 @@ body {
     font-family: var(--font-stack);
     font-size: 16px;
     background-color: var(--background-color);
+    background-image: url(./images/background.jpg);
+    background-size: cover;
+    background-blend-mode: multiply;
+    background-repeat: no-repeat;
     color: var(--first-color);
     overflow-x: hidden;
     display: flex;
