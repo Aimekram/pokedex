@@ -1,6 +1,6 @@
 # Pokedex
 
-Interactive list of Pokemons fetched from [https://pokeapi.co](pokeapi.co) with pagination and filtering by types.
+Interactive list of Pokemons fetched from [pokeapi.co](https://pokeapi.co) with pagination and filtering by types.
 
 ### To see live demo
 
